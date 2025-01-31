@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday Surprise</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #FFE6F0;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        .gift-box {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .gift-box:hover {
+            transform: scale(1.05);
+        }
+
+        .box-lid {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 40px;
+            background: #FF69B4;
+            border: 2px solid #FF1493;
+        }
+
+        .box-body {
+            position: absolute;
+            top: 40px;
+            width: 100%;
+            height: 160px;
+            background: #FF69B4;
+            border: 2px solid #FF1493;
+        }
+
+        .ribbon-vertical {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 200px;
+            background: #FF1493;
+        }
+
+        .ribbon-horizontal {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            height: 20px;
+            background: #FF1493;
+        }
+
+        .bow {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 40px;
+            background: #FF1493;
+            border-radius: 50%;
+        }
+
+        .tap-text {
+            margin-top: 220px;
+            font-size: 24px;
+            color: #FF1493;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .message {
+            display: none;
+            text-align: center;
+            font-size: 24px;
+            color: #FF1493;
+            padding: 20px;
+            max-width: 80%;
+            animation: fadeIn 2s;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 24px;
+            animation: float 3s infinite ease-in-out;
+            opacity: 0;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(20deg); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes openBox {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.5); opacity: 0.5; }
+            100% { transform: scale(2); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="gift-box" id="giftBox">
+        <div class="box-lid"></div>
+        <div class="box-body"></div>
+        <div class="ribbon-vertical"></div>
+        <div class="ribbon-horizontal"></div>
+        <div class="bow"></div>
+    </div>
+    <div class="tap-text" id="tapText">Tap the gift! 🎁</div>
+    <div class="message" id="message">
+        Happy Birthday, My Love! 🎉💖<br>
+        Wishing you a wonderful year ahead!<br>
+        You make every day special! ✨
+    </div>
+
+    <script>
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.innerHTML = '💖';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDelay = Math.random() * 2 + 's';
+            document.body.appendChild(heart);
+            
+            setTimeout(() => {
+                heart.style.opacity = '1';
+                heart.style.transform = `translateY(${window.innerHeight}px)`;
+            }, 100);
+
+            setTimeout(() => heart.remove(), 3000);
+        }
+
+        function showMessage() {
+            const giftBox = document.getElementById('giftBox');
+            const tapText = document.getElementById('tapText');
+            const message = document.getElementById('message');
+
+            giftBox.style.animation = 'openBox 1s forwards';
+            tapText.style.display = 'none';
+
+            setTimeout(() => {
+                giftBox.style.display = 'none';
+                message.style.display = 'block';
+                
+                // Start creating hearts
+                setInterval(createHeart, 300);
+            }, 1000);
+        }
+
+        document.getElementById('giftBox').addEventListener('click', showMessage);
+    </script>
+</body>
+</html>
